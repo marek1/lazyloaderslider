@@ -1,0 +1,94 @@
+.container {
+	display: block;
+}
+.container .slider {
+	width: 90%;
+	padding: 5%;
+	position: relative;
+	
+}
+.container .slider #slider_container {
+	width: 100%;
+	height: auto;
+	min-height: 100px;
+	position: relative;
+	display: block;
+}
+
+.container .slider #sliderPrev, .container .slider #sliderNext {
+	background: url('../images/nav.png') no-repeat;
+	cursor: pointer;
+	width: 24px;
+	height: 38px;
+	top: 50%;
+	position: absolute;
+}
+.container .slider #sliderPrev a, .container .slider #sliderNext a {
+	display: block;
+	height: 100%;
+}
+.container .slider #sliderNext {
+	background-position: -25px -21px;
+	display: block;
+	right: 10px;
+	text-indent: -100000px;
+	margin-left: 20px;
+	z-index: 500;
+}
+.container .slider #sliderPrev {
+	background-position: 0 -21px;
+	display: block;
+	left: 10px;
+	text-indent: -100000px;
+	margin-right: 20px;
+	z-index: 500;
+}
+.container .slider #slider_container #loader,
+.container .slider #slider_container #error{
+	display: none;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	z-index: 99999999;
+	color:red;
+}
+.container .slider #slider_container #slider_control {
+	position: relative;
+	width: 100%;
+	height: 100%;
+}
+.container .slider #slider_container #slider_control .oneStorySlide {
+	position: absolute;
+	background: gray;
+	z-index: 0;
+	left: 110%;
+}
+.container .slider #slider_container #slider_control .oneStorySlide:target {
+	z-index: 1;
+	left: 0;
+}
+.container .slider #slider_container ul {
+	position: relative;
+	bottom: 0;
+	left: 0;
+	list-style-type: none;
+	z-index: 1000;
+}
+.container .slider #slider_container li, .container .slider #slider_container li a, .container .slider #slider_container li.sliderPagintaioncurrent a {
+	float: left;
+	display: block;
+	margin: 0 .3em 0 0;
+	width: 11px;
+	height: 12px;
+}
+.container .slider #slider_container li a {
+	background: url('../images/nav.png') no-repeat;
+	background-position: -12px 0px;
+}
+
+.container .slider #slider_container li.sliderPagintaioncurrent a {
+	background-position: -24px 0px;
+}
+.clearBoth{
+	clear: both;
+}
