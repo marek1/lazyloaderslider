@@ -23,14 +23,10 @@ Change initialization parameter
   or if hosted at cloudinary (it send the width parameter)
   images {
 	1 : 'http://res.cloudinary.com/xxx/image/upload/c_scale,w_'+(width)+'/xxx/first-image.jpg',
-	2 : 'http://res.cloudinary.com/xxx/image/upload/c_scale,w_'+(width)+'/xxx/second-image.jpg',
+	2 : 'http://res.cloudinary.com/xxx/image/upload/c_scale,w_'+(width)+'/xxx/second-image.jpg'
   }
   or locally like so
   images {
 	1: 'your-folder/your-image-url-to-first-image'
 	2: 'your-folder/your-image-url-to-second-image'
   }
-
-
-- 
-
