@@ -8,7 +8,24 @@
 		 *
 		 * New : create slides depending on images to be loaded
 		 */
-		var slides = 0, image_sources = [];
+		var slides = 0, image_sources = [],
+		JavaScript = {
+		  load: function(src, callback) {
+		    var script = document.createElement('script'),
+		        loaded;
+		    script.setAttribute('src', src);
+		    if (callback) {
+		      script.onreadystatechange = script.onload = function() {
+		        if (!loaded) {
+		          callback();
+		        }
+		        loaded = true;
+		      };
+		    }
+		    document.getElementsByTagName('head')[0].appendChild(script);
+		  }
+		};
+
 
 		slider.insertImagesIntoDom = function(){
 
@@ -23,27 +40,32 @@
 					var imageSrc = slider.options.images[key];
 					image_sources.push(imageSrc);
 
-					var div = document.createElement("div"), 
-					divClassName = 'oneStorySlide', 
-					image = document.createElement("img"), 
-					newLi = document.createElement("LI"), 
-					newLiFirstClass = 'sliderPagintaioncurrent';
-
-					div.setAttribute('class', divClassName);
-					div.setAttribute('id', 'slide_' + slides);
-					image.setAttribute('data-src', imageSrc);
-					image.setAttribute('id', 'img_' + slides);
+					var newLiFirstClass = '';
 					if (slides < 1) {
-						newLi.setAttribute('class', newLiFirstClass);
+						newLiFirstClass = 'sliderPagintaioncurrent';
 					}
-					newLi.innerHTML = '<a href="#slide_' + slides + '"></a>';
+					
+					var div = slider.createDomElement('div', [{type:'class',name:'oneStorySlide'},{type:'id', name:'slide_'+slides}]),
+					newLi = slider.createDomElement('li', [{type:'class',name:newLiFirstClass}],'<a href="#slide_' + slides + '"></a>'),
+					newImg = slider.createDomElement('img', [{type:'data-src',name:imageSrc},{type:'id', name:'img_' + slides}]);
 
-					document.getElementById('slider_control').appendChild(div).appendChild(image);
+					document.getElementById('slider_control').appendChild(div).appendChild(newImg);
 					document.getElementById('sliderPagination').appendChild(newLi);
 
 					slides++;
 				}
 			}
+		};
+		
+		slider.createDomElement = function(element,attributes,innerhtml){
+			var elem = document.createElement(element);
+			for (var i = 0; i < attributes.length; i++){
+				elem.setAttribute(attributes[i].type,attributes[i].name);
+			}
+			if (innerhtml){
+				elem.innerHTML=innerhtml;
+			}	
+			return elem;
 		};
 
 		slider.checkUrl = function() {
@@ -141,22 +163,17 @@
 		
 		slider.resizeImages = function(){
 			/*
-			 * always window height
+			 * NEW : RATIO
 			 */
-			var height= window.innerWidth,
-			ratio= 1*(100-(slider.options.paddingInPercent*2))/100,
-			newWidth = parseFloat(height)*ratio;
-			/*
-			 * set images to 100% window width (- padding)
-			 */
+			var windowWidth = window.innerWidth,
+			paddingRatio = 1*(100-(slider.options.paddingInPercent*2))/100,
+			imageHeight = (((windowWidth * paddingRatio) * slider.options.ratioHeight) / slider.options.ratioWidth);
+		
 			for (var i=0; i<image_sources.length;i++){
-				document.getElementById('img_'+i).style.width = parseInt(newWidth,10) + "px";
+				document.getElementById('img_'+i).style.height = parseInt(imageHeight,10) + "px";
 			}
-			/*
-			 * set slider to 100% window height
-			 */
-			document.getElementsByClassName('slider')[0].style.height = height + "px";
-			
+			document.getElementsByClassName('container')[0].style.height = (imageHeight / paddingRatio) + "px";
+			document.getElementsByClassName('slider')[0].style.height = imageHeight + "px";
 		};
 		
 		slider.initEventHandler = function(){
@@ -175,7 +192,35 @@
 			 * add event listener for window resize
 			 */
 			window.onresize = function() {
+				console.log('resizing');
 				slider.resizeImages();
+			};
+			
+			/*
+			 * enable Leap Controller
+			 */
+			document.getElementById('enableLeap').onclick = function(){
+				/*
+				 * Feedback
+				 */
+				var elem = document.getElementById('enableLeap'),
+				parent= elem.parentNode;
+				elem.remove();
+				parent.innerHTML="enabling";
+				/*
+				 * insert canvas into DOM
+				 */
+				var canvas = slider.createDomElement('canvas', [{type:'id',name:'canvas'}]);
+				document.getElementsByTagName("body")[0].appendChild(canvas);
+				/*
+				 * load scripts
+				 */
+				JavaScript.load("lib/leap.min.js", function() {
+				  JavaScript.load("script/leapcontroller.js", function(){
+				  	parent.innerHTML="Swipe by moving hands slowly over Leap Controller unit (left to right or vice versa)";
+				  });
+				});
+			
 			};
 			
 		};	

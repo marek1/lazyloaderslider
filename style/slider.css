@@ -1,16 +1,43 @@
+header { 
+	background:#999;
+	height:auto; 
+	left:0; 
+	position:fixed; 
+	width:100%; 
+	top:0; 
+	padding:10px;
+	height:50px;
+}
+footer { 
+	background:#999;
+	height:auto; 
+	left:0; 
+	position:fixed; 
+	width:100%; 
+ 	bottom:0; 
+	padding:10px;
+}
+canvas{
+	position:absolute;
+	left:-100%;
+	top:-100%;
+	width:0;
+	height:0;
+}
 .container {
+	position: relative;
+	margin-top: 50px;
 	display: block;
 }
 .container .slider {
 	width: 90%;
 	padding: 5%;
-	position: relative;
+	position: absolute;
 	
 }
 .container .slider #slider_container {
 	width: 100%;
 	height: auto;
-	min-height: 100px;
 	position: relative;
 	display: block;
 }
@@ -59,7 +86,6 @@
 }
 .container .slider #slider_container #slider_control .oneStorySlide {
 	position: absolute;
-	background: gray;
 	z-index: 0;
 	left: 110%;
 }
