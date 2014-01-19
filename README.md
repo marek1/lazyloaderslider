@@ -13,10 +13,6 @@ Structure :
 - index.html contains the markup and initialization of the slider
 
 Change initialization parameter
-- width 
-  it takes the width of the window by default, 
-  but can be set to a fixed width, i.e. 960 (without pixel)
-  
 - ratio , i.e. 16:9 like so
   ratioWidth : 16, 
   ratioHeight : 9 
