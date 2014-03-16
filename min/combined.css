@@ -104,21 +104,22 @@ header {
 	background:#999;
 	height:auto; 
 	left:0; 
-	position:fixed; 
 	width:100%; 
 	top:0; 
-	padding:10px;
-	height:50px;
+	padding:5%;
+	width:90%;
 }
 footer { 
 	background:#999;
 	height:auto; 
 	left:0; 
-	position:fixed; 
 	width:100%; 
  	bottom:0; 
-	padding:10px;
-	height:50px;
+	padding:5%;
+	width: 90%;
+}
+footer button{
+	float:right;
 }
 canvas{
 	position:absolute;
@@ -127,37 +128,32 @@ canvas{
 	width:0;
 	height:0;
 }
-.container {
-	position: relative;
-	margin-top: 50px;
-	display: block;
-}
-.container .slider {
+.slider {
 	width: 90%;
 	padding: 5%;
-	position: absolute;
+	position: relative;
 	
 }
-.container .slider #slider_container {
+.slider #slider_container {
 	width: 100%;
 	height: auto;
 	position: relative;
 	display: block;
 }
 
-.container .slider #sliderPrev, .container .slider #sliderNext {
+.slider #sliderPrev, .slider #sliderNext {
 	background: url('../images/nav.png') no-repeat;
 	cursor: pointer;
 	width: 24px;
 	height: 38px;
-	top: 50%;
+	margin-top: 100px;
 	position: absolute;
 }
-.container .slider #sliderPrev a, .container .slider #sliderNext a {
+.slider #sliderPrev a, .slider #sliderNext a {
 	display: block;
 	height: 100%;
 }
-.container .slider #sliderNext {
+.slider #sliderNext {
 	background-position: -25px -21px;
 	display: block;
 	right: 10px;
@@ -165,7 +161,7 @@ canvas{
 	margin-left: 20px;
 	z-index: 500;
 }
-.container .slider #sliderPrev {
+.slider #sliderPrev {
 	background-position: 0 -21px;
 	display: block;
 	left: 10px;
@@ -173,49 +169,53 @@ canvas{
 	margin-right: 20px;
 	z-index: 500;
 }
-.container .slider #slider_container #loader,
-.container .slider #slider_container #error{
-	display: none;
+.slider #slider_container #loader,
+.slider #slider_container #error{
+	visibility: hidden;
 	position: absolute;
 	left: 50%;
 	top: 50%;
 	z-index: 99999999;
 	color:red;
 }
-.container .slider #slider_container #slider_control {
+.slider #slider_container #slider_control {
 	position: relative;
 	width: 100%;
 	height: 100%;
 }
-.container .slider #slider_container #slider_control .oneStorySlide {
+.slider #slider_container #slider_control .oneStorySlide {
 	position: absolute;
 	z-index: 0;
 	left: 110%;
+	width:100%;
 }
-.container .slider #slider_container #slider_control .oneStorySlide:target {
+.slider #slider_container #slider_control .oneStorySlide:target {
 	z-index: 1;
 	left: 0;
 }
-.container .slider #slider_container ul {
+.slider #slider_container #slider_control .oneStorySlide img{
+	width: 100%;
+}
+.slider #slider_container ul {
 	position: relative;
 	bottom: 0;
 	left: 0;
 	list-style-type: none;
 	z-index: 1000;
 }
-.container .slider #slider_container li, .container .slider #slider_container li a, .container .slider #slider_container li.sliderPagintaioncurrent a {
+.slider #slider_container li, .slider #slider_container li a, .slider #slider_container li.sliderPagintaioncurrent a {
 	float: left;
 	display: block;
 	margin: 0 .3em 0 0;
 	width: 11px;
 	height: 12px;
 }
-.container .slider #slider_container li a {
+.slider #slider_container li a {
 	background: url('../images/nav.png') no-repeat;
 	background-position: -12px 0px;
 }
 
-.container .slider #slider_container li.sliderPagintaioncurrent a {
+.slider #slider_container li.sliderPagintaioncurrent a {
 	background-position: -24px 0px;
 }
 .clearBoth{

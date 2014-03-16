@@ -1,5 +1,5 @@
 /*
- * Slider
+ * Lazy loading slider
  * Author : Marek
  */
 ( function(slider, undefined) {
@@ -24,7 +24,7 @@
 			}
 		};
 
-		slider.insertImagesIntoDom = function() {
+		var insertImagesIntoDom = function() {
 
 			for (var key in slider.options.images) {
 				if (slider.options.images.hasOwnProperty(key)) {
@@ -42,16 +42,16 @@
 						newLiFirstClass = 'sliderPagintaioncurrent';
 					}
 
-					var div = slider.createDomElement('div', [{
+					var div = createDomElement('div', [{
 						type : 'class',
 						name : 'oneStorySlide'
 					}, {
 						type : 'id',
 						name : 'slide_' + slides
-					}]), newLi = slider.createDomElement('li', [{
+					}]), newLi = createDomElement('li', [{
 						type : 'class',
 						name : newLiFirstClass
-					}], '<a href="#slide_' + slides + '"></a>'), newImg = slider.createDomElement('img', [{
+					}], '<a href="#slide_' + slides + '"></a>'), newImg = createDomElement('img', [{
 						type : 'data-src',
 						name : imageSrc
 					}, {
@@ -67,7 +67,7 @@
 			}
 		};
 
-		slider.createDomElement = function(element, attributes, innerhtml) {
+		var createDomElement = function(element, attributes, innerhtml) {
 			var elem = document.createElement(element);
 			for (var i = 0; i < attributes.length; i++) {
 				elem.setAttribute(attributes[i].type, attributes[i].name);
@@ -78,7 +78,7 @@
 			return elem;
 		};
 
-		slider.checkUrl = function() {
+		var checkUrl = function() {
 
 			var url = window.location.toString();
 			if (url.indexOf('#') != -1) {
@@ -88,39 +88,35 @@
 			}
 		};
 
-		slider.changeUrl = function(param) {
+		var changeUrl = function(param) {
 			var url = window.location.toString();
 			if (url.indexOf('#') == -1) {
 				location.href = location.href + param;
 			}
 		};
 
-		slider.imageLoaded = function(no) {
-			var node = document.getElementById('img_' + no);
-			var w = 'undefined' != typeof node.clientWidth ? node.clientWidth : node.offsetWidth;
-			var h = 'undefined' != typeof node.clientHeight ? node.clientHeight : node.offsetHeight;
+		var imageLoaded = function(no) {
+			console.log('node : ', document.getElementById('img_' + no));
+			var node = document.getElementById('img_' + no), w = 'undefined' != typeof node.clientWidth ? node.clientWidth : node.offsetWidth, h = 'undefined' != typeof node.clientHeight ? node.clientHeight : node.offsetHeight;
 			return w + h > 0 ? true : false;
 		};
 
-		slider.retrieveImg = function(no) {
+		var retrieveImg = function(no) {
 			if (document.getElementById('img_' + no) && document.getElementById('img_' + no).getAttribute('src') === null) {
 
 				document.getElementById('img_' + no).setAttribute('src', image_sources[no]);
-
-				document.getElementById('loader').style.display = 'block';
-
+				document.getElementById('loader').style.visibility = 'visible';
 				var loaded = false;
 
-				loaded = slider.imageLoaded(no);
-				
+				loaded = imageLoaded(no);
+
 				askIfImagesLoaded = function() {
 					console.log('loading...');
-					loaded = slider.imageLoaded(no);
+					loaded = imageLoaded(no);
 					if (!loaded) {
 						setTimeout(askIfImagesLoaded, 1000);
 					} else {
-						console.log('loaded');
-						document.getElementById('loader').style.display = 'none';
+						document.getElementById('loader').style.visibility = 'hidden';
 					}
 				};
 
@@ -128,18 +124,18 @@
 			}
 		};
 
-		slider.updatePrevButton = function(no) {
+		var updatePrevButton = function(no) {
 			var href = no - 1 >= 0 ? no - 1 : slides - 1;
 			document.getElementById('sliderPrev').setAttribute('href', '#slide_' + href);
 
 		};
 
-		slider.updateNextButton = function(no) {
+		var updateNextButton = function(no) {
 			var href = no + 1 < slides ? no + 1 : 0;
 			document.getElementById('sliderNext').setAttribute('href', '#slide_' + href);
 		};
 
-		slider.updateToggles = function(no) {
+		var updateToggles = function(no) {
 			/*
 			 * sometimes the first item in UL array is a Textnode
 			 */
@@ -153,60 +149,35 @@
 			}
 		};
 
-		slider.doSlideAction = function() {
+		var doSlideAction = function() {
 			setTimeout(function() {
-				var no = slider.checkUrl();
+				var no = checkUrl();
 				console.log('length of image_sources', image_sources.length);
 				if (no <= image_sources.length) {
-					slider.updatePrevButton(no);
-					slider.updateNextButton(no);
-					slider.updateToggles(no);
-					slider.retrieveImg(no);
+					updatePrevButton(no);
+					updateNextButton(no);
+					updateToggles(no);
+					retrieveImg(no);
 				} else {
-					slider.showError();
+					showError();
 				}
 			}, 100);
 		};
 
-		slider.showError = function() {
+		var showError = function() {
 			document.getElementById('error').style.display = 'block';
 		};
 
-		slider.resizeImages = function() {
-			/*
-			 * NEW : RATIO
-			 */
-			var windowWidth = window.innerWidth, paddingRatio = 1 * (100 - (slider.options.paddingInPercent * 2)) / 100, 
-			windowHeight = window.innerHeight, 
-			calculatedImageHeight = (((windowWidth * paddingRatio) * slider.options.ratioHeight) / slider.options.ratioWidth),
-			imageHeight = (calculatedImageHeight + 250) > windowHeight ? (windowHeight - 250) :  calculatedImageHeight;
-			
-
-			for (var i = 0; i < image_sources.length; i++) {
-				document.getElementById('img_' + i).style.height = parseInt(imageHeight, 10) + "px";
-			}
-			document.getElementsByClassName('container')[0].style.height = (imageHeight / paddingRatio) + 50 + "px";
-			document.getElementsByClassName('slider')[0].style.height = imageHeight + "px";
-		};
-
-		slider.initEventHandler = function() {
+		var initEventHandler = function() {
 
 			document.getElementById('sliderPrev').onclick = function() {
-				slider.doSlideAction();
+				doSlideAction();
 			};
 			document.getElementById('sliderNext').onclick = function() {
-				slider.doSlideAction();
+				doSlideAction();
 			};
 			document.getElementById('sliderPagination').onclick = function(event) {
-				slider.doSlideAction();
-			};
-
-			/*
-			 * add event listener for window resize
-			 */
-			window.onresize = function() {
-				console.log('resizing');
-				slider.resizeImages();
+				doSlideAction();
 			};
 
 			/*
@@ -216,13 +187,14 @@
 				/*
 				 * Feedback
 				 */
-				var elem = document.getElementById('enableLeap'), parent = elem.parentNode;
+				var elem = document.getElementById('enableLeap'), 
+				parent = elem.parentNode;
 				elem.remove();
 				parent.innerHTML = "enabling";
 				/*
 				 * insert canvas into DOM
 				 */
-				var canvas = slider.createDomElement('canvas', [{
+				var canvas = createDomElement('canvas', [{
 					type : 'id',
 					name : 'canvas'
 				}]);
@@ -244,17 +216,15 @@
 
 			slider.options = options || {};
 
-			slider.insertImagesIntoDom();
+			insertImagesIntoDom();
 
-			if (slider.checkUrl() === 0) {
-				slider.changeUrl('#slide_0');
+			if (checkUrl() === 0) {
+				changeUrl('#slide_0');
 			}
 
-			slider.doSlideAction();
+			doSlideAction();
 
-			slider.initEventHandler();
-
-			slider.resizeImages();
+			initEventHandler();
 
 		};
 
