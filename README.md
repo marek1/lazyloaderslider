@@ -4,6 +4,7 @@ Features :
 - Images are lazy loaded (that means only the image that is displayed)
 - Images are loaded in the appropriate size (window width) 
 - Leap Motion Controller (can be enabled , and works if hardware is present)
+- Add as many images to slider as you like
 
 Structure : 
 - images/ contains images used by the application
@@ -13,9 +14,6 @@ Structure :
 - index.html contains the markup and initialization of the slider
 
 Change initialization parameter
-- ratio , i.e. 16:9 like so
-  ratioWidth : 16, 
-  ratioHeight : 9 
 
 - Image object, like so :
   images {
